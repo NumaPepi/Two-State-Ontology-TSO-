@@ -1,47 +1,75 @@
-# Two State Ontology-TSO
+# Two State Ontology (TSO) — Quantum Validation
 
-This repository collects theoretical notes, Qiskit experiments, and analysis related to the Two-State Ontology (TSO) framework.
+**Please try to falsify this.**
 
-## A Single Framework for Quantum and Classical Physics
+TSO derives quantum phase transition behavior from percolation theory. The predictions come from mathematics *before* comparison with experiment — no parameter fitting.
 
-Two-State Ontology (TSO) proposes that quantum and classical behavior are not fundamentally different.  
-They may represent phases of the same underlying dynamics, separated by a critical transition threshold.
+## Results
 
-TSO does not attempt to replace existing physics frameworks.  
-Instead, it aims to provide a geometric and informational structure that connects quantum mechanics and relativity at phase boundaries.
+| Platform | Tests | Passed | Notes |
+|----------|-------|--------|-------|
+| IBM Marrakesh | 12 | 11 | Failed test was programming error (fixed) |
 
----
+## Core Predictions
 
-## Core Testable Claim
+TSO **derives** these values (not fitted):
 
-Energy shifts near quantum critical points scale approximately linearly with information content:
+| Parameter | Value | Source |
+|-----------|-------|--------|
+| p_c | 0.3116 | 3D site percolation threshold |
+| N_c | 6 | Cubic lattice coordination number |
+| α | 7/(1 + e×ρ_c) ≈ 2.58 | Hilbert space geometry |
 
-ΔE ∝ ΔS_info
+### The Key Claim
 
-where:
+At the measurement-induced phase transition (MIPT):
 
-- ΔE = energy shift near a phase/measurement boundary  
-- ΔS_info = change in informational entropy or accessible state information  
+```
+S(p) = S_max × tanh(κ × N_c × (p_c - p) / p_c)
+```
 
----
+The transition occurs at **p_c ≈ 0.31** with sigmoid crossover.
 
-## Experimental Status
+## Quick Start
 
-Preliminary tests using IBM Quantum hardware have explored this relationship
-through GHZ-state fidelity scaling, topology-dependent decoherence experiments,
-and related circuit analyses.
+```bash
+# Clone
+git clone https://github.com/YOUR-USERNAME/tso-validation.git
+cd tso-validation
 
-Early results show encouraging correlation with TSO predictions
-(e.g., 11 of 12 tested predictions consistent within experimental uncertainty),
-though further replication and independent validation are ongoing.
+# Install
+pip install -r requirements.txt
 
----
+# Run on simulator
+python tso_validation.py --backend aer_simulator
 
-## Purpose of This Repository
+# Run on IBM hardware (requires IBM Quantum account)
+python tso_validation.py --backend ibm_marrakesh --shots 4096
+```
 
-This repository documents:
+## How to Falsify TSO
 
-- Qiskit experiments testing TSO predictions  
-- Theoretical notes on derived primitives  
-- Experimental logs and analysis scripts  
-- Ongoing attempts at falsification and refinement
+| Prediction | How to Break It |
+|------------|-----------------|
+| p_c = 0.31 ± 0.02 | Find transition at different threshold |
+| Sigmoid crossover | Show linear or step-function transition |
+| κ varies with topology | Show κ constant across all connectivities |
+
+## Files
+
+```
+tso-validation/
+├── README.md              # This file
+├── tso_validation.py      # Main validation script
+├── requirements.txt       # Dependencies
+├── LICENSE               # MIT License
+└── results/              # Validation data
+```
+
+## Author
+
+John Pepin — Independent Researcher — [incapp.org](https://incapp.org)
+
+## License
+
+MIT License — Use freely, attribute appropriately.
